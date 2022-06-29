@@ -1,0 +1,2 @@
+mycommand
+stdout 'the cake is a lie\n'
