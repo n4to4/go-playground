@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"testing"
 
@@ -17,7 +16,7 @@ func TestHello(t *testing.T) {
 func TestMain(m *testing.M) {
 	os.Exit(testscript.RunMain(m, map[string]func() int{
 		"mycommand": func() int {
-			fmt.Println("the cake is a lie")
+			main()
 			return 0
 		},
 	}))

@@ -1,2 +1,2 @@
-mycommand
-stdout 'the cake is a lie\n'
+mycommand foo
+stdout 'Hello, foo\n'
