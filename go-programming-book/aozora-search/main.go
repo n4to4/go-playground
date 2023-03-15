@@ -21,8 +21,9 @@ func findEntries(siteURL string) ([]Entry, error) {
 	if err != nil {
 		return nil, err
 	}
-
-	_ = doc
+	doc.Find("ol li a").Each(func(n int, elem *goquery.Selection) {
+		println(elem.Text(), elem.AttrOr("href", ""))
+	})
 	return nil, nil
 }
 
