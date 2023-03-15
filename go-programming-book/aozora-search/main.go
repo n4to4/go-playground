@@ -3,6 +3,8 @@ package main
 import (
 	"fmt"
 	"log"
+	"net/url"
+	"path"
 	"regexp"
 	"strings"
 
@@ -52,7 +54,20 @@ func findAuthorAndZIP(siteURL string) (string, string) {
 			zipURL = href
 		}
 	})
-	return author, zipURL
+
+	if zipURL == "" {
+		return author, ""
+	}
+	if strings.HasPrefix(zipURL, "http://") || strings.HasPrefix(zipURL, "https://") {
+		return author, zipURL
+	}
+
+	u, err := url.Parse(siteURL)
+	if err != nil {
+		return author, ""
+	}
+	u.Path = path.Join(path.Dir(u.Path), zipURL)
+	return author, u.String()
 }
 
 func main() {
