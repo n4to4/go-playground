@@ -3,8 +3,10 @@ package main
 import (
 	"database/sql"
 	"log"
+	"os"
 
 	_ "github.com/mattn/go-sqlite3"
+	"golang.org/x/text/encoding/japanese"
 )
 
 func main() {
@@ -35,4 +37,27 @@ func main() {
 			log.Fatal(err)
 		}
 	}
+
+	b, err := os.ReadFile("ababababa.txt")
+	if err != nil {
+		log.Fatal(err)
+	}
+	b, err = japanese.ShiftJIS.NewDecoder().Bytes(b)
+	if err != nil {
+		log.Fatal(err)
+	}
+	content := string(b)
+
+	res, err := db.Exec(
+		`insert into contents (author_id, title_id, title, content) values (?, ?, ?, ?)`,
+		"000879",
+		"14",
+		"あばばばば",
+		content,
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+	docID, err := res.LastInsertId()
+	_ = docID
 }
