@@ -4,7 +4,10 @@ import (
 	"database/sql"
 	"log"
 	"os"
+	"strings"
 
+	"github.com/ikawaha/kagome-dict/ipa"
+	"github.com/ikawaha/kagome/v2/tokenizer"
 	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/text/encoding/japanese"
 )
@@ -59,5 +62,20 @@ func main() {
 		log.Fatal(err)
 	}
 	docID, err := res.LastInsertId()
-	_ = docID
+
+	t, err := tokenizer.New(ipa.Dict(), tokenizer.OmitBosEos())
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	seg := t.Wakati(content)
+	_, err = db.Exec(`
+		insert into contents_fts (docid, words) values (?, ?)
+	`,
+		docID,
+		strings.Join(seg, " "),
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
 }
