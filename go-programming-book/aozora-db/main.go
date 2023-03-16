@@ -2,6 +2,7 @@ package main
 
 import (
 	"database/sql"
+	"fmt"
 	"log"
 	"os"
 	"strings"
@@ -77,5 +78,28 @@ func main() {
 	)
 	if err != nil {
 		log.Fatal(err)
+	}
+
+	query := "虫 AND ココア"
+	rows, err := db.Query(`
+		select a.author, c.title
+		from contents c
+		inner join authors a using (author_id)
+		inner join contents_fts f
+		  on c.rowid = f.docid
+		  and words match ?
+	`, query)
+	if err != nil {
+		log.Fatal(err)
+	}
+	defer rows.Close()
+
+	for rows.Next() {
+		var author, title string
+		err = rows.Scan(&author, &title)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Println(author, title)
 	}
 }
