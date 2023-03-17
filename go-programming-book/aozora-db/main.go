@@ -42,6 +42,15 @@ func main() {
 		}
 	}
 
+	_, err = db.Exec(
+		`insert into authors (author_id, author) values (?, ?)`,
+		"000879",
+		"芥川竜之介",
+	)
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	b, err := os.ReadFile("ababababa.txt")
 	if err != nil {
 		log.Fatal(err)
