@@ -3,6 +3,7 @@ package main
 import (
 	"archive/zip"
 	"bytes"
+	"database/sql"
 	"errors"
 	"fmt"
 	"io/ioutil"
@@ -14,6 +15,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	_ "github.com/mattn/go-sqlite3"
 	"golang.org/x/text/encoding/japanese"
 )
 
@@ -125,6 +127,36 @@ func extractText(zipURL string) (string, error) {
 		}
 	}
 	return "", errors.New("contents not found")
+}
+
+func setupDB(dsn string) (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", dsn)
+	if err != nil {
+		return nil, err
+	}
+
+	queries := []string{
+		`create table if not exists authors (
+			author_id text,
+			author text,
+			primary key (author_id)
+		)`,
+		`create table if not exists contents (
+			author_id text,
+			title_id text,
+			title text,
+			content text,
+			primary key (author_id, title_id)
+		)`,
+		`create virtual table if not exists contents_fts using fts4 (words)`,
+	}
+	for _, query := range queries {
+		_, err = db.Exec(query)
+		if err != nil {
+			return nil, err
+		}
+	}
+	return db, nil
 }
 
 func main() {
