@@ -14,14 +14,14 @@ func TestFindEntries(t *testing.T) {
 		fmt.Println(r.URL.String())
 		if r.URL.String() == "/" {
 			w.Write([]byte(`
-				<table summary="作者データ">
+				<table summary="作家データ">
 				<tr>
 					<td>分類</td>
 					<td>著者</td>
 				</tr>
 				<tr>
 					<td>作家名</td>
-					<td><a href="">芥川 龍之介</a></td>
+					<td><a href="">テスト 太郎</a></td>
 				</tr>
 				</table>
 				<ol>
@@ -32,17 +32,17 @@ func TestFindEntries(t *testing.T) {
 			pat := regexp.MustCompile(`.*/cards/([0-9]+)/card([0-9]+)\.html$`)
 			token := pat.FindStringSubmatch(r.URL.String())
 			w.Write([]byte(fmt.Sprintf(`
-				<table summary="作者データ">
+				<table summary="作家データ">
 				<tr>
 					<td>分類</td>
 					<td>著者</td>
 				</tr>
 				<tr>
 					<td>作家名</td>
-					<td><a href="">芥川 龍之介</a></td>
+					<td><a href="">テスト 太郎</a></td>
 				</tr>
 				</table>
-				<table summary="ダウンロードデータ">
+				<table summary="ダウンロードデータ" class="download">
 				<tr>
 					<td><a href="./files/%[1]s_%[2]s.zip">%[1]s_%[2]s.zip</a></td>
 				</tr>
