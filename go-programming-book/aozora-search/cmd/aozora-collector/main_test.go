@@ -98,14 +98,14 @@ func TestFindEntries(t *testing.T) {
 }
 
 func TestExtract(t *testing.T) {
-	ts := httptest.NewServer(http.FileServer(http.Dir(".")))
+	ts := httptest.NewServer(http.FileServer(http.Dir("../..")))
 	defer ts.Close()
 
 	got, err := extractText(ts.URL + "/testdata/example.zip")
 	if err != nil {
 		t.Fatal(err)
 	}
-	want := "テストデータ\n"
+	want := "test data\n"
 	if want != got {
 		t.Errorf("want %q, but got %q", want, got)
 	}
