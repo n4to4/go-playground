@@ -26,6 +26,8 @@ func TestFindEntries(t *testing.T) {
 				</table>
 				<ol>
 				<li><a href="../cards/999999/card001.html">テスト書籍001</a></li>
+				<li><a href="../cards/999999/card002.html">テスト書籍002</a></li>
+				<li><a href="../cards/999999/card003.html">テスト書籍003</a></li>
 				</ol>
 			`))
 		} else {
@@ -72,6 +74,22 @@ func TestFindEntries(t *testing.T) {
 			Title:    "テスト書籍001",
 			SiteURL:  ts.URL,
 			ZipURL:   ts.URL + "/cards/999999/files/999999_001.zip",
+		},
+		{
+			AuthorID: "999999",
+			Author:   "テスト 太郎",
+			TitleID:  "002",
+			Title:    "テスト書籍002",
+			SiteURL:  ts.URL,
+			ZipURL:   ts.URL + "/cards/999999/files/999999_002.zip",
+		},
+		{
+			AuthorID: "999999",
+			Author:   "テスト 太郎",
+			TitleID:  "003",
+			Title:    "テスト書籍003",
+			SiteURL:  ts.URL,
+			ZipURL:   ts.URL + "/cards/999999/files/999999_003.zip",
 		},
 	}
 	if !reflect.DeepEqual(want, got) {
