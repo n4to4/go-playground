@@ -1,5 +1,6 @@
-hello:
-	echo "Hello, World"
+a := one two
+b := 'one two'
 
-blah: blah.c
-	clang blah.c -o blah
+all:
+	printf '$a'; echo
+	printf $b; echo
