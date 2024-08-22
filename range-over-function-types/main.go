@@ -7,6 +7,14 @@ import (
 )
 
 func main() {
-	set := set.New[int]()
-	fmt.Println(set)
+	set1 := set.New[int]()
+	set1.Add(42)
+	set1.Add(123)
+
+	set2 := set.New[int]()
+	set2.Add(42)
+	set2.Add(99)
+
+	union := set.Union(set1, set2)
+	fmt.Println(union)
 }
